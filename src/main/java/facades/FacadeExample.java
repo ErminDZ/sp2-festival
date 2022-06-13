@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.RenameMeDTO;
+import dtos.ShowDTO;
 import entities.RenameMe;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
 //import errorhandling.RenameMeNotFoundException;
+import entities.Show;
 import utils.EMF_Creator;
 
 /**
@@ -76,6 +78,20 @@ public class FacadeExample {
         TypedQuery<RenameMe> query = em.createQuery("SELECT r FROM RenameMe r", RenameMe.class);
         List<RenameMe> rms = query.getResultList();
         return RenameMeDTO.getDtos(rms);
+    }
+
+    public List<ShowDTO> getAllShows(){
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Show> query = em.createQuery("SELECT s FROM Show s ", Show.class);
+        List<Show> s = query.getResultList();
+        System.out.println(s);
+        return ShowDTO.getDtos(s);
+    }
+
+    public ShowDTO getShowsIAmAssignTo(long showId) {
+        EntityManager em = emf.createEntityManager();
+        Show s = em.find(Show.class, showId);
+        return new ShowDTO(s);
     }
     
     public static void main(String[] args) {
